@@ -3,21 +3,13 @@
     <!-- 组件内容区域 -->
     <router-view/>
     <!-- 底部导航 -->
-    <div id="footer">
-      <van-tabbar v-model="active" route active-color="#38b48b">
-        <van-tabbar-item :to="{name:'Home'}" icon="music-o">首页</van-tabbar-item>
-        <van-tabbar-item :to="{name:'Video'}" icon="video-o">视频</van-tabbar-item>
-        <van-tabbar-item icon="friends-o">标签</van-tabbar-item>
-        <van-tabbar-item :to="{name:'User'}" icon="contact">我的</van-tabbar-item>
-      </van-tabbar>
-    </div>
   </div>
 </template>
 <script>
   export default {
     data() {
       return {
-        active: 0,
+        
       };
     },
   };
