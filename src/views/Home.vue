@@ -13,13 +13,13 @@
     </div>
     <div class="home_content">
       <!-- banner图 -->
-      <div class="banner">
-        <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-          <van-swipe-item v-for="(item,index) in banners" :key="index">
-            <img :src="item.imageUrl" alt="" />
-          </van-swipe-item>
-        </van-swipe>
-      </div>
+    <div class="banner">
+      <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
+        <van-swipe-item v-for="(item,index) in banners" :key="index">
+          <img :src="item.imageUrl" alt="" />
+        </van-swipe-item>
+      </van-swipe>
+    </div>
       <!-- 分类歌单 -->
       <h4>推荐歌单</h4>
       <div class="rec_music">
@@ -40,7 +40,7 @@
           v-for="item in newest_music"
           :key="item.id"
         >
-        <div class="persong">
+        <div class="persong"  @click="clickHandle(item.id)">
           <div class="topsong">
             <p class="song">
               <span>{{item.name}}</span>
@@ -50,9 +50,7 @@
           </div>
           <el-divider></el-divider>
         </div>
-
         </el-col>
-
       </el-row>
       <p :loading="isLoading" @click="loadMore" style="font-size:14px;color:#cecece;width:100%;text-align:center">点击加载更多...</p>
     </div>
@@ -85,7 +83,7 @@ export default {
       recommend_music:[],
       newest_music:[],
       isLoading: false,
-      limit:10
+      limit:10,
     }
   },
   async created () {
@@ -104,7 +102,15 @@ export default {
       const res2 = await getNewestMusic( { limit: this.limit });
       this.newest_music=res2.data.result;
     },
-  },
+    clickHandle(i){
+      this.$router.push({
+          name: 'PerSongDetail',
+          query:{
+            id:i
+          }
+      });
+    }
+  }
 }
 
 </script>
@@ -182,8 +188,6 @@ h4{
 #myfooter{
   height: 50px;
 }
-</style>
-<style>
 .el-row{
   display: flex;
   flex-direction: column;
@@ -194,6 +198,12 @@ h4{
   justify-content: center;
   align-items: center;
 }
+.el-divider--horizontal{
+  margin: 0;
+  margin-top: .3rem;
+}
+</style>
+<style>
 .van-nav-bar{
   background-color:#38b48b ;
   opacity: .8;
@@ -228,9 +238,5 @@ h4{
 }
 .van-grid-item:nth-of-type(1){
   margin-left: 3px;
-}
-.el-divider--horizontal{
-  margin: 0;
-  margin-top: .3rem;
 }
 </style>

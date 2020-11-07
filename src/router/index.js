@@ -29,7 +29,17 @@ const routes = [
     path: '/recommendmusicdetail',
     name: 'RecommendMusicDetail',
     component: () => import('../views/RecommendMusicDetail.vue')
-  }
+  },
+  {
+    path: '/persongdetail',
+    name: 'PerSongDetail',
+    component: () => import('../views/PerSongDetail.vue')
+  },
+  {
+    path: '*',
+    name: '404',
+    component: 404
+  },
 ]
 
 const router = new VueRouter({

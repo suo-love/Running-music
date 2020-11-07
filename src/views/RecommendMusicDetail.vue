@@ -242,4 +242,18 @@ h3{
   display: flex;
   flex-direction: column;
 }
+.el-row{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.el-col-24{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.el-divider--horizontal{
+  margin: 0;
+  margin-top: .3rem;
+}
 </style>
