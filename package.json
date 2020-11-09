@@ -12,10 +12,17 @@
     "core-js": "^3.6.5",
     "element-ui": "^2.14.0",
     "less-loader": "^7.0.2",
+<<<<<<< HEAD
+    "pug-plain-loader": "^1.0.0",
+    "sass": "^1.29.0",
+    "sass-loader": "^10.0.5",
+=======
     "nprogress": "^0.2.0",
+>>>>>>> c257a558aca1b024d4a0373988107871049ae199
     "vant": "^2.10.12",
     "vue": "^2.6.11",
-    "vue-router": "^3.2.0"
+    "vue-router": "^3.2.0",
+    "vue-waterfall-easy": "^2.4.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
