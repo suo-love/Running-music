@@ -2,12 +2,12 @@
   <div class="home">
     <!-- logo和搜索 -->
     <div class="logo">
-      <van-nav-bar>
+      <van-nav-bar @click-right="onClickRight">
         <template #left>
           <h1>YF-M</h1>
         </template>
         <template #right>
-          <van-icon color="#f08300" name="search" size="18" />
+          <van-icon color="#f08300" name="search" size="18"/>
         </template>
       </van-nav-bar>
     </div>
@@ -108,6 +108,11 @@ export default {
           query:{
             id:i
           }
+      });
+    },
+    onClickRight(){
+       this.$router.push({
+          name: 'Search',
       });
     }
   }
