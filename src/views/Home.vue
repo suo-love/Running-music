@@ -11,6 +11,15 @@
         </template>
       </van-nav-bar>
     </div>
+    <!-- 导航 -->
+     <div id="">
+      <van-tabbar v-model="active" route active-color="#38b48b">
+        <van-tabbar-item :to="{name:'Home'}">首页</van-tabbar-item>
+        <van-tabbar-item :to="{name:'Video'}">歌手</van-tabbar-item>
+        <van-tabbar-item :to="{name:'Ranklist'}">排行</van-tabbar-item>
+        <van-tabbar-item :to="{name:'User'}">我的</van-tabbar-item>
+      </van-tabbar>
+    </div>
     <div class="home_content">
       <!-- banner图 -->
     <div class="banner">
@@ -54,15 +63,7 @@
       </el-row>
       <p :loading="isLoading" @click="loadMore" style="font-size:14px;color:#cecece;width:100%;text-align:center">点击加载更多...</p>
     </div>
-    <div id="myfooter"></div>
-     <div id="footer">
-      <van-tabbar v-model="active" route active-color="#38b48b">
-        <van-tabbar-item :to="{name:'Home'}" icon="music-o">首页</van-tabbar-item>
-        <van-tabbar-item :to="{name:'Video'}" icon="video-o">视频</van-tabbar-item>
-        <van-tabbar-item icon="friends-o">标签</van-tabbar-item>
-        <van-tabbar-item :to="{name:'User'}" icon="contact">我的</van-tabbar-item>
-      </van-tabbar>
-    </div>
+    
   </div>
 </template>
 
@@ -243,5 +244,8 @@ h4{
 }
 .van-grid-item:nth-of-type(1){
   margin-left: 3px;
+}
+.van-hairline--top-bottom{
+  position: static;
 }
 </style>

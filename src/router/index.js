@@ -8,13 +8,23 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'relogin',
-    component: () => import('../views/relogin.vue')
+    name: 'Home',
+    component: () => import('../views/Home.vue')
   },
   {
-    path: '/relogin',
-    name: 'relogin',
-    component: () => import('../views/relogin.vue')
+    path: '/',
+    name: 'Home',
+    component: () => import('../views/Home.vue')
+  },
+  {
+    path: '/SingerDetail',
+    name: 'SingerDetail',
+    component: () => import('../views/SingerDetail.vue')
+  },
+  {
+    path: '/Home',
+    name: 'Home',
+    component: () => import('../views/Home.vue')
   },
   {
     path: '/video',
@@ -40,7 +50,7 @@ const routes = [
     path: '/Collect',
     name: 'Collect',
     component: () => import('../views/Collect.vue')
-  },{
+  }, {
     path: '/recommendmusicdetail',
     name: 'RecommendMusicDetail',
     component: () => import('../views/RecommendMusicDetail.vue')

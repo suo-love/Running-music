@@ -2,7 +2,6 @@
   <div id="app">
     <!-- 组件内容区域 -->
     <router-view/>
-    <!-- 底部导航 -->
   </div>
 </template>
 <script>

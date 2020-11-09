@@ -62,9 +62,7 @@ export default {
   },
   methods:{
     onClickLeft(){
-      this.$router.push({
-          name: 'Home',
-      });
+      this.$router.go(-1);
     },
   }
 }

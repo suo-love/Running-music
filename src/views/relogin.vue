@@ -10,39 +10,36 @@
           <div class="circlebs"></div>
           <div class="circlews"></div>
         </div>
-      <div class="phone">
+      <!-- <div class="phone">
         <input disabled class="phonenum" type="text" name="" id="" value="17864299371">
         <i class="el-icon-edit"></i>
-      </div>
+      </div> -->
       <div class="btn">
-        <el-button round>一键登录</el-button>
+        <el-button round @click="login">手机号登录</el-button>
         <el-button round>立即体验</el-button>
       </div>
       <div class="icon">
         <i class="iconfont icon-qq"></i>
-         <i class="iconfont icon-weixin"></i>
-          <i class="iconfont icon-weibo"></i>
-           <i class="iconfont icon-wangyi"></i>
-      </div>
-       
-
-
-        
-
-    
+        <i class="iconfont icon-weixin"></i>
+        <i class="iconfont icon-weibo"></i>
+        <i class="iconfont icon-wangyi"></i>
+      </div> 
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'relogin',
   data() {
     return {
-     
+     num:17864299371,
     }
   },
   methods: {
-    
+    login(){
+      this.$router.replace({name:'login'})
+    }
   },
 }
 </script>
