@@ -61,6 +61,16 @@ const routes = [
     component: () => import('../views/PerSongDetail.vue')
   },
   {
+    path: '/changepersoninf',
+    name: 'ChangePersonInf',
+    component: () => import('../views/ChangePersonInf.vue')
+  },
+  {
+    path: '/changepassword',
+    name: 'ChangePassword',
+    component: () => import('../views/ChangePassword.vue')
+  },
+  {
     path: '*',
     name: '404',
     component: 404

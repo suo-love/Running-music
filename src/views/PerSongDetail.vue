@@ -19,7 +19,7 @@
         </el-col>
       </el-row>
     </div>
-    <div class="content" style="text-align:center;margin:50px 0;">
+    <div class="content" style="text-align:center;margin:40px 0;">
       <el-avatar :size="300" :src="persongdetail.al.picUrl"></el-avatar>
     </div>
     <div>

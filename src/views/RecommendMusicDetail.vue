@@ -1,5 +1,6 @@
 <template>
   <div class="detail">
+    <span class="el-icon-arrow-left" style="position:fixed;z-index:1000;top:10px;color:#fff;" @click="jumpHome">返回</span>
     <!-- 头部 -->
     <section class="header" :style="{'background-image': 'url('+detaildata.coverImgUrl+')'}">
         <div class="pic">
@@ -23,7 +24,7 @@
         >
         <p style="width:10%;height:100%;font-size: 17px;color: #999;">{{index+1}}</p>
         <div class="songRignt">
-          <div class="persong">
+          <div class="persong" @click="clickHandle(value.id)">
             <p class="song">
               <span>{{value.name}}</span>
               <span style="padding-top:2px">{{value.ar[0].name}}&nbsp;&nbsp;/&nbsp;&nbsp;{{value.ar[0].name}}</span>
@@ -88,6 +89,21 @@ export default {
     this.creator=res.data.playlist.creator
     const res1 = await getSongComment({id:this.$route.query.id})
     this.comment = res1.data.hotComments;
+  },
+  methods:{
+    jumpHome(){
+       this.$router.push({
+          name: 'Home',
+      });
+    },
+    clickHandle(i){
+      this.$router.push({
+          name: 'PerSongDetail',
+          query:{
+            id:i
+          }
+      });
+    }
   }
 }
 </script>
