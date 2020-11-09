@@ -2,24 +2,24 @@
   <div class="home">
     <!-- logo和搜索 -->
     <div class="logo">
-      <van-nav-bar>
+      <van-nav-bar @click-right="onClickRight">
         <template #left>
           <h1>YF-M</h1>
         </template>
         <template #right>
-          <van-icon color="#f08300" name="search" size="18" />
+          <van-icon color="#f08300" name="search" size="18"/>
         </template>
       </van-nav-bar>
     </div>
     <div class="home_content">
       <!-- banner图 -->
-      <div class="banner">
-        <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-          <van-swipe-item v-for="(item,index) in banners" :key="index">
-            <img :src="item.imageUrl" alt="" />
-          </van-swipe-item>
-        </van-swipe>
-      </div>
+    <div class="banner">
+      <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
+        <van-swipe-item v-for="(item,index) in banners" :key="index">
+          <img :src="item.imageUrl" alt="" />
+        </van-swipe-item>
+      </van-swipe>
+    </div>
       <!-- 分类歌单 -->
       <h4>推荐歌单</h4>
       <div class="rec_music">
@@ -29,6 +29,7 @@
           icon-size= 40
           :icon="value.picUrl"
           :text="value.name"
+          :to="{name:'RecommendMusicDetail',query:{id:value.id}}"
            />
         </van-grid>
       </div>
@@ -39,20 +40,28 @@
           v-for="item in newest_music"
           :key="item.id"
         >
-        <div class="persong">
-          <p class="song">
-            <span>{{item.name}}</span>
-            <span>{{item.song.artists[0].name}}-{{item.song.album.name}}</span>
-          </p>
-          <p style="width:20px;height:20px;background:red;" class="play"></p>
+        <div class="persong"  @click="clickHandle(item.id)">
+          <div class="topsong">
+            <p class="song">
+              <span>{{item.name}}</span>
+              <span style="padding-top:2px">{{item.song.artists[0].name}}&nbsp;&nbsp;-&nbsp;&nbsp;{{item.song.album.name}}</span>
+            </p>
+            <p class="play"><img src="../assets/cover_play.png" alt=""></p>
+          </div>
+          <el-divider></el-divider>
         </div>
-        <el-divider></el-divider>
         </el-col>
-
       </el-row>
-      <p :loading="isLoading" @click="loadMore">加载更多</p>
+      <p :loading="isLoading" @click="loadMore" style="font-size:14px;color:#cecece;width:100%;text-align:center">点击加载更多...</p>
     </div>
-    <div id="footer">
+    <div id="myfooter"></div>
+     <div id="footer">
+      <van-tabbar v-model="active" route active-color="#38b48b">
+        <van-tabbar-item :to="{name:'Home'}" icon="music-o">首页</van-tabbar-item>
+        <van-tabbar-item :to="{name:'Video'}" icon="video-o">视频</van-tabbar-item>
+        <van-tabbar-item icon="friends-o">标签</van-tabbar-item>
+        <van-tabbar-item :to="{name:'User'}" icon="contact">我的</van-tabbar-item>
+      </van-tabbar>
     </div>
   </div>
 </template>
@@ -69,10 +78,12 @@ export default {
   },
   data () {
     return {
+      active: 0,
       banners: [],
       recommend_music:[],
       newest_music:[],
       isLoading: false,
+      limit:10,
     }
   },
   async created () {
@@ -87,10 +98,24 @@ export default {
   methods:{
     async loadMore() {
       // 最新音乐
-      const res2 = await getNewestMusic();
+      this.limit+=10;
+      const res2 = await getNewestMusic( { limit: this.limit });
       this.newest_music=res2.data.result;
     },
-  },
+    clickHandle(i){
+      this.$router.push({
+          name: 'PerSongDetail',
+          query:{
+            id:i
+          }
+      });
+    },
+    onClickRight(){
+       this.$router.push({
+          name: 'Search',
+      });
+    }
+  }
 }
 
 </script>
@@ -135,9 +160,7 @@ h4{
 }
 .song span:nth-child(2){
   font: 12px Helvetica,sans-serif;
-}
-#footer{
-  height: 55px;
+  color: #888;
 }
 .playCount{
   position: absolute;
@@ -154,22 +177,38 @@ h4{
   overflow-y: hidden;
 }
 .persong{
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+}
+.topsong{
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-</style>
-<style>
+.play img{
+  width: 25px;
+}
+#myfooter{
+  height: 50px;
+}
 .el-row{
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 .el-col-24{
-  width: 90%;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
+.el-divider--horizontal{
+  margin: 0;
+  margin-top: .3rem;
+}
+</style>
+<style>
 .van-nav-bar{
   background-color:#38b48b ;
   opacity: .8;
@@ -204,9 +243,5 @@ h4{
 }
 .van-grid-item:nth-of-type(1){
   margin-left: 3px;
-}
-.el-divider--horizontal{
-  margin: 0;
-  margin-top: .3rem;
 }
 </style>
