@@ -1,7 +1,7 @@
 import { get } from "@/utils/request";
 
 /**
- * 搜索歌曲
+ * 推荐搜索
  */
 export function getSearchrecSong(params) {
   return get("/search/suggest",params);
@@ -11,4 +11,10 @@ export function getSearchrecSong(params) {
  */
 export function getHotSearch() {
   return get("/search/hot/detail");
+}
+/**
+ * 搜索歌曲
+ */
+export function getSearchSong(params) {
+  return get("/cloudsearch",params);
 }

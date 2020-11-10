@@ -101,6 +101,7 @@ export default {
           name: 'PerSongDetail',
           query:{
             id:i,
+            ids:this.$route.query.id
           }
       });
     }

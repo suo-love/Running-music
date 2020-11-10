@@ -14,13 +14,13 @@
     </div>
 
     <div class="searchlist" :style="{'display':value}">
-      <p v-for="(v,i) in searchlist" :key="i" style="font-size:14px;color:#fff;margin-left:20px;">{{v.keyword}}</p>
+      <p v-for="(v,i) in searchlist" :key="i" style="font-size:14px;color:#fff;margin-left:20px;" @click="jumpPerSong(v.id)">{{v.name}}</p>
     </div>
-    <h4>搜索历史</h4>
+    <!-- <h4>搜索历史</h4> -->
     <h4>热搜</h4>
     <div class="perhot">
       <el-row v-for="(item,index) in hotsearch" :key="index">
-        <el-col style="display: flex;align-items: center;height:60px;">
+        <el-col style="display: flex;align-items: center;height:60px;" @click.native="hotHandle(item.searchWord)">
             <span style="padding:0 20px;">{{index+1}}</span>
             <p style="display:flex;flex-direction: column;">
               <span style="color:#38b48b;">{{item.searchWord}}</span>
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import {getHotSearch,getSearchrecSong} from '@/services/searchsong'
+import {getHotSearch,getSearchrecSong,getSearchSong} from '@/services/searchsong'
 export default {
   name:'Search',
   data() {
@@ -49,19 +49,32 @@ export default {
     this.hotsearch = res.data.data;
   },
   methods:{
-    // type:'mobile'
+    // 搜索功能
     async onSearch(){
-      const res1 = await getSearchrecSong({
-      keywords: this.keyword,
-      type:'mobile'
-    });
-    this.searchlist=res1.data.result.allMatch;
+      const res1 = await getSearchSong({
+        keywords: this.keyword,
+      })
+    this.searchlist=res1.data.result.songs;
     this.value='block'
     },
     jumpHome(){
        this.$router.push({
           name: 'Home',
       });
+    },
+    jumpPerSong(id){
+      this.$router.push({
+        name: 'PerSongDetail',
+        query: {
+          id: id,
+        },
+      })
+    },
+    async hotHandle(i){
+      const res2 = await getSearchSong({
+        keywords: i,
+      })
+      this.jumpPerSong(res2.data.result.songs[0].id)
     }
   }
 

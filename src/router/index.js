@@ -1,16 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-
+import { isLogined } from "@/utils/tools";
 
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: () => import('../views/Home.vue')
-  },
   {
     path: '/',
     name: 'Home',
@@ -34,7 +28,10 @@ const routes = [
   {
     path: '/user',
     name: 'User',
-    component: () => import('../views/User.vue')
+    component: () => import('../views/User.vue'),
+    meta: {
+      needLogin: true,
+    },
   },
   {
     path: '/search',
@@ -71,6 +68,26 @@ const routes = [
     component: () => import('../views/ChangePassword.vue')
   },
   {
+    path: '/login',
+    name: 'Login',
+    component: () => import('../views/Login.vue')
+  },
+  {
+    path: '/login_reg',
+    name: 'Login_reg',
+    component: () => import('../views/Login_reg.vue')
+  },
+  {
+    path: '/security_code',
+    name: 'Security_code',
+    component: () => import('../views/Security_code.vue')
+  },
+  {
+    path: '/new_scode',
+    name: 'New_SCode',
+    component: () => import('../views/New_SCode.vue')
+  },
+  {
     path: '*',
     name: '404',
     component: 404
@@ -80,5 +97,17 @@ const routes = [
 const router = new VueRouter({
   routes
 })
-
+router.beforeEach((to, from, next) => {
+  if (to.meta.needLogin) {
+    if (isLogined()) {
+      next();
+    } else {
+      next({
+        name: "Login",
+      });
+    }
+  } else {
+    next();
+  }
+});
 export default router

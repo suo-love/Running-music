@@ -118,11 +118,14 @@
 import { getPerSongdetail } from '@/services/persongdetail'
 import { getBo } from '@/services/BO'
 import { getSingerDetail } from '@/services/getSingerDetail'
+import { getSonglistdetail } from '@/services/song_list_detail'
 export default {
   name: 'PerSongdetail',
   data() {
     return {
-      persongdetail: {},
+      persongdetail: {
+        al:{}
+      },
       songs: [],
       ar: [],
       playurl: '',
@@ -130,6 +133,7 @@ export default {
       named: 'pause-circle-o',
       animt: 'state',
       lid: this.$route.query.lid,
+      ids:this.$route.query.ids
     }
   },
   async created() {
@@ -137,11 +141,17 @@ export default {
     this.playurl = res1.data.data[0].url
     const res = await getPerSongdetail({ ids: this.$route.query.id })
     this.persongdetail = res.data.songs[0]
-    const res2 = await getSingerDetail({ id: this.lid })
-    this.ar = res.data.songs[0].ar.map((item) => {
-      return item.name
-    })
-    this.songs = res2.data.songs
+
+    if(this.$route.query.ids){
+      const res3 = await getSonglistdetail({id:this.$route.query.ids});
+      this.songs = res3.data.playlist.tracks
+    }else{
+      const res2 = await getSingerDetail({ id: this.lid })
+      this.ar = res.data.songs[0].ar.map((item) => {
+        return item.name
+      })
+      this.songs = res2.data.songs
+    }
   },
   methods: {
     onClickLeft() {
@@ -152,7 +162,6 @@ export default {
         this.$refs.start.play() //audio.play();// 这个就是播放
         this.named = 'pause-circle-o'
         this.animt = ''
-        console.log(this.$refs.start.style.animation.play - state())
       } else {
         this.$refs.start.pause() // 这个就是暂停
         this.named = 'play-circle-o'

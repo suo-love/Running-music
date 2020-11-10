@@ -3,11 +3,11 @@
     <el-container>
     <!-- header -->
     <el-avatar :size="100" :src="circleUrl" style="position:fixed;left:0;right:0;top:20px;margin:0 auto;"></el-avatar>
-    <p style="width:100%;color:#38b48b;text-align:center;position:fixed;left:0;right:0;top:130px;margin:0 auto;">昵称</p>
+    <p style="width:100%;color:#38b48b;text-align:center;position:fixed;left:0;right:0;top:130px;margin:0 auto;">{{$route.query.nickname}}</p>
     <el-row>
       <el-col>
           <span class="el-icon-back" @click="onClickLeft" style="font-size:32px;color:#38b48b;margin:0 10px;padding-top:10px;"></span>
-          <el-button round style="border:none;">退出登录</el-button>
+          <el-button round style="border:none;" @click ="nologin">退出登录</el-button>
       </el-col>
     </el-row>
       <!-- content -->
@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import {removeToken} from '@/utils/tools'
+import {Nologin} from '@/services/auth'
 export default {
   name:'User',
   data(){
@@ -65,6 +67,13 @@ export default {
       this.$router.push({
           name: 'ChangePersonInf',
       });
+    },
+    nologin(){
+      Nologin();
+      removeToken();
+      this.$router.push({
+          name: "Login",
+        });
     }
   }
 }

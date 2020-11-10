@@ -64,7 +64,7 @@
       </el-row>
       <p :loading="isLoading" @click="loadMore" style="font-size:14px;color:#cecece;width:100%;text-align:center">点击加载更多...</p>
     </div>
-    
+
   </div>
 </template>
 
@@ -103,7 +103,6 @@ export default {
       this.limit+=10;
       const res2 = await getNewestMusic( { limit: this.limit });
       this.newest_music=res2.data.result;
-      console.log(this.newest_music[0])
     },
     clickHandle(i){
       this.$router.push({

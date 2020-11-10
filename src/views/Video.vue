@@ -21,7 +21,7 @@
     </div>
 
     <!-- 内容区域 -->
-    <h5>热门歌手</h5>
+    <h4>热门歌手</h4>
     <ul>
       <li v-for="(item,index) in singerinfo" :key="index" @click="clickHandle(item.id,item.name,item.picUrl)">
         <img :src="item.picUrl" alt="">
@@ -44,7 +44,6 @@ export default {
   //获取数据方法
   async created(){
     const res = await getsingers();
-    console.log(res.data.list.artists);
     this.singerinfo=res.data.list.artists;
   },
   methods: {
@@ -81,7 +80,7 @@ ul li{
   margin: 0 0.5rem;
   padding-bottom: 1rem;
   margin-top: 0.5rem;
-  
+
   border-bottom: 1px solid #cecece;
 }
 ul li img{
@@ -91,5 +90,11 @@ ul li img{
 ul li p{
   font-size:0.8rem;
   color: #333333;
+}
+h4{
+  margin: 10px 0;
+  margin-left: 10px;
+  border-left: 3px solid #38b48b;
+  padding-left: 4px;
 }
 </style>
