@@ -50,6 +50,7 @@
           :key="item.id"
         >
         <div class="persong"  @click="clickHandle(item.id)">
+          <!-- {{item}} -->
           <div class="topsong">
             <p class="song">
               <span>{{item.name}}</span>
@@ -102,12 +103,14 @@ export default {
       this.limit+=10;
       const res2 = await getNewestMusic( { limit: this.limit });
       this.newest_music=res2.data.result;
+      console.log(this.newest_music[0])
     },
     clickHandle(i){
       this.$router.push({
           name: 'PerSongDetail',
           query:{
-            id:i
+            id:i,
+
           }
       });
     },

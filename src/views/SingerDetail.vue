@@ -28,7 +28,8 @@ export default {
     return {
       SingerDetail:[],
       title:"",
-      pic:""
+      pic:"",
+      
     }
   },
   async created(){
@@ -37,14 +38,15 @@ export default {
     this.SingerDetail=res.data.songs;
     this.title=this.$route.query.name;
     this.pic="url("+res.data.songs[0].al.picUrl+")";
-    console.log(this.pic)
-    console.log(this.title);
+    // console.log(this.pic)
+    // console.log(this.title);
     // this.ar=res.data.songs[0].ar.map(item=>{return item.name});
   },
   methods:{
     onClickLeft(){
       this.$router.push({
           name: 'Home',
+
       });
     },
     goback(){
@@ -54,7 +56,8 @@ export default {
       this.$router.push({
           name: 'PerSongDetail',
           query:{
-            id:id
+            id:id,
+            lid:this.$route.query.id
           }
       });
     },

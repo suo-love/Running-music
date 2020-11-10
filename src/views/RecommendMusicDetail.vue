@@ -100,7 +100,7 @@ export default {
       this.$router.push({
           name: 'PerSongDetail',
           query:{
-            id:i
+            id:i,
           }
       });
     }
