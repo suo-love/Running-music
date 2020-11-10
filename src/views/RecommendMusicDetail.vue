@@ -92,9 +92,7 @@ export default {
   },
   methods:{
     jumpHome(){
-       this.$router.push({
-          name: 'Home',
-      });
+       this.$router.go(-1);
     },
     clickHandle(i){
       this.$router.push({
