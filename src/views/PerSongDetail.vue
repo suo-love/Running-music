@@ -43,7 +43,7 @@
       </el-row>
     </div>
 
-    <!-- 旋转盘 -->
+    <!-- 旋转区域 -->
     <div class="content" :class="animt">
       <el-avatar :size="300" :src="persongdetail.al.picUrl"></el-avatar>
     </div>
@@ -71,9 +71,20 @@
 
     <!-- 进度条 -->
     <div class="fang">
-      <audio ref="start" :src="playurl" controls autoplay="autoplay"></audio>
+      <!-- 开始时间 -->
+
+      <!-- 小圆点 -->
+      <p></p>
+      <!-- 当前时间 -->
+      <span>{{currentTime}}</span>
+      <!-- 总时长 -->
+      <span>{{duration}}</span>
+      <audio  @canplay="getDuration" @timeupdate="updateTime" ref="start" :src="playurl" controls autoplay="autoplay" style="display:none"></audio>
+
     </div>
     <!-- 五个按钮 -->
+
+
     <div
       class="xiang"
       style="width: 100%; display: flex; justify-content: space-around"
@@ -123,15 +134,17 @@ export default {
   name: 'PerSongdetail',
   data() {
     return {
+      duration:0,
+      currentTime:0,
       persongdetail: {
-        al:{}
+        al: {},
       },
       songs: [],
       ar: [],
       playurl: '',
       active: 'active',
       named: 'pause-circle-o',
-      animt: 'state',
+      animt: '',
       lid: this.$route.query.lid,
       ids:this.$route.query.ids
     }
@@ -153,20 +166,22 @@ export default {
       this.songs = res2.data.songs
     }
   },
+
   methods: {
     onClickLeft() {
       this.$router.go(-1)
     },
     pastar() {
       if (this.$refs.start.paused) {
-        this.$refs.start.play() //audio.play();// 这个就是播放
+        this.$refs.start.play()
         this.named = 'pause-circle-o'
         this.animt = ''
       } else {
-        this.$refs.start.pause() // 这个就是暂停
+        this.$refs.start.pause()
         this.named = 'play-circle-o'
         this.animt = 'state'
       }
+      console.log(this.$refs.start.currentTime)
     },
     load() {
       this.$refs.start.load()
@@ -189,10 +204,58 @@ export default {
       getBo({ id: id }).then(function (response) {
         that.playurl = response.data.data[0].url
       })
-      getPerSongdetail({ id: id }).then(function (response) {})
+
+      // lid
+
+      // getPerSongdetail({ id: id }).then(function (response) {
+
+      // })
+
     },
-  },
+    getDuration() {
+       console.log(parseInt(this.$refs.start.duration)); //此时可以获取到duration
+       var middle= 0;// 分
+       var s=0;
+       if(parseInt(this.$refs.start.duration)>60){
+              middle= parseInt(this.$refs.start.duration/60);
+              s= parseInt(this.$refs.start.duration%60);
+              console.log(middle,s)
+       }
+       this.duration = middle+":"+s;
+    },
+    updateTime(e) {
+      // this.currentTime =parseInt(e.target.currentTime);  //获取audio当前播放时间
+      console.log(parseInt(e.target.currentTime/60))
+      var a="";
+      if(parseInt(e.target.currentTime)<10){
+        a=""+parseInt(e.target.currentTime)
+      }
+      else{
+        a+=parseInt(e.target.currentTime)
+      }
+      if(parseInt(e.target.currentTime)>=60){
+        a=parseInt(e.target.currentTime)%60
+      }
+      if(a<10){
+        a="0"+a
+      }
+      this.currentTime=parseInt(e.target.currentTime/60)+":"+a
+
+    },
+
+},
+watch:{
+    currentSong() {  //监听正在播放的歌曲改变
+        this.$nextTick(() => {
+            this.$refs.start.play();
+            console.log(this.$refs.start.duration); //此时duration为NaN
+        })
+    },
 }
+
+
+}
+
 </script>
 
 <style scoped>
@@ -200,6 +263,38 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+.fang p{
+  width: 78%;
+  height: 0.2rem;
+  background-color: #cecece;
+  /* rgb(56, 180, 139) */
+}
+.fang p::after{
+  content: "";
+  display: block;
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: #fff;
+  border: 0.1rem solid rgb(56, 180, 139);
+  position: absolute;
+  border-radius: 50%;
+  top: 0.7rem;
+  left:2.0rem;
+}
+.fang span{
+  font-size: 0.5rem;
+  color: #696969;
+  position: absolute;
+}
+.fang span:nth-of-type(1){
+  top: 1.5rem;
+    left: 1.5rem;
+}
+.fang span:nth-of-type(2){
+  top: 1.5rem;
+  right: 1.5rem;
 }
 .state {
   animation-play-state: paused;
@@ -249,11 +344,13 @@ export default {
 }
 .active {
   display: none;
-  /* color: aqua; */
 }
 /* animation: name duration timing-function delay iteration-count direction fill-mode play-state; */
 .content {
-  animation: myfirst 30s linear infinite;
+  animation-name: myfirst;
+  animation-duration: 30s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
   text-align: center;
   margin: 40px 0;
 }
