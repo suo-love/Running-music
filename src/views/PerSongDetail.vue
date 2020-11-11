@@ -73,17 +73,28 @@
     <div class="fang">
       <!-- 开始时间 -->
 
-      <!-- 小圆点 -->
-      <p></p>
+      <!-- <el-slider v-model="currentTime" :format-tooltip="formatProcessToolTip" @change="changeCurrentTime" class="slider"></el-slider> -->
+
+      <p class="circle" ></p>
       <!-- 当前时间 -->
-      <span>{{currentTime}}</span>
+      <span>{{ currentTime }}</span>
       <!-- 总时长 -->
-      <span>{{duration}}</span>
-      <audio  @canplay="getDuration" @timeupdate="updateTime" ref="start" :src="playurl" controls autoplay="autoplay" style="display:none"></audio>
-
+      <span>{{ duration }}</span>
+      <!-- 小圆点 -->
+      <span @panstart="panstart"></span>
+      <audio
+        @canplay="getDuration"
+        @timeupdate="updateTime"
+        ref="start"
+        :src="playurl"
+        controls
+        autoplay="autoplay"
+        style="display: none"
+      ></audio>
     </div>
-    <!-- 五个按钮 -->
 
+
+    <!-- 五个按钮 -->
 
     <div
       class="xiang"
@@ -134,8 +145,8 @@ export default {
   name: 'PerSongdetail',
   data() {
     return {
-      duration:0,
-      currentTime:0,
+      duration: 0,
+      currentTime: 0,
       persongdetail: {
         al: {},
       },
@@ -146,25 +157,27 @@ export default {
       named: 'pause-circle-o',
       animt: '',
       lid: this.$route.query.lid,
-      ids:this.$route.query.ids
+      ids: this.$route.query.ids,
     }
   },
+
   async created() {
     const res1 = await getBo({ id: this.$route.query.id })
     this.playurl = res1.data.data[0].url
     const res = await getPerSongdetail({ ids: this.$route.query.id })
     this.persongdetail = res.data.songs[0]
 
-    if(this.$route.query.ids){
-      const res3 = await getSonglistdetail({id:this.$route.query.ids});
+    if (this.$route.query.ids) {
+      const res3 = await getSonglistdetail({ id: this.$route.query.ids })
       this.songs = res3.data.playlist.tracks
-    }else{
+    } else {
       const res2 = await getSingerDetail({ id: this.lid })
       this.ar = res.data.songs[0].ar.map((item) => {
         return item.name
       })
       this.songs = res2.data.songs
     }
+    
   },
 
   methods: {
@@ -181,7 +194,6 @@ export default {
         this.named = 'play-circle-o'
         this.animt = 'state'
       }
-      console.log(this.$refs.start.currentTime)
     },
     load() {
       this.$refs.start.load()
@@ -204,58 +216,80 @@ export default {
       getBo({ id: id }).then(function (response) {
         that.playurl = response.data.data[0].url
       })
-
-      // lid
-
-      // getPerSongdetail({ id: id }).then(function (response) {
-
-      // })
-
     },
     getDuration() {
-       console.log(parseInt(this.$refs.start.duration)); //此时可以获取到duration
-       var middle= 0;// 分
-       var s=0;
-       if(parseInt(this.$refs.start.duration)>60){
-              middle= parseInt(this.$refs.start.duration/60);
-              s= parseInt(this.$refs.start.duration%60);
-              console.log(middle,s)
-       }
-       this.duration = middle+":"+s;
+      //  console.log(parseInt(this.$refs.start.duration)); //此时可以获取到duration
+      var middle = 0 // 分
+      var s = 0
+      if (parseInt(this.$refs.start.duration) > 60) {
+        middle = parseInt(this.$refs.start.duration / 60)
+        s = parseInt(this.$refs.start.duration % 60)
+        // console.log(middle,s)
+      }
+      this.duration = middle + ':' + s
     },
     updateTime(e) {
       // this.currentTime =parseInt(e.target.currentTime);  //获取audio当前播放时间
-      console.log(parseInt(e.target.currentTime/60))
-      var a="";
-      if(parseInt(e.target.currentTime)<10){
-        a=""+parseInt(e.target.currentTime)
+      var a = ''
+      if (parseInt(e.target.currentTime) < 10) {
+        a = '' + parseInt(e.target.currentTime)
+      } else {
+        a += parseInt(e.target.currentTime)
       }
-      else{
-        a+=parseInt(e.target.currentTime)
+      if (parseInt(e.target.currentTime) >= 60) {
+        a = parseInt(e.target.currentTime) % 60
       }
-      if(parseInt(e.target.currentTime)>=60){
-        a=parseInt(e.target.currentTime)%60
+      if (a < 10) {
+        a = '0' + a
       }
-      if(a<10){
-        a="0"+a
-      }
-      this.currentTime=parseInt(e.target.currentTime/60)+":"+a
-
+      this.currentTime = parseInt(e.target.currentTime / 60) + ':' + a
     },
+    // panstart(e) {
+    //   let odiv = e.target
+    //   let disx = e.clientX - odiv.offsetLeft
+    //   let disy = e.clientY - odiv.offsetTop
+    //   console.log(document)
+    //       document.body.panmove = (e) => {
+    //       console.log(e)
+    //       let left = e.clientX - disx
+    //       let top = e.clientY - disy
+    //       console.log(e.clientX - disx, e.clientY - disy)
+    //       odiv.style.left = left + 'px'
+    //       odiv.style.top = top + 'px'
+    //     }
+    //     document.panend = (e) => {
+    //       document.onmousemove = null
+    //       document.onmouseup = null
+    //     }
+    // },
+    // touchStart(e) {
+    //   let events = e.touches[0] || e;
+    //   this.timelineClick(events);
+    // },
 
-},
-watch:{
-    currentSong() {  //监听正在播放的歌曲改变
-        this.$nextTick(() => {
-            this.$refs.start.play();
-            console.log(this.$refs.start.duration); //此时duration为NaN
-        })
+    // touchMove(e) {
+    //   // if (this.state.touching !== true) {
+    //   //   return;
+    //   // }
+    //   let events = e.touches[0] || e;
+    //   this.timelineClick(events);
+    // },
+
+    // touchEnd(e) {
+    //   this.setState({
+    //     touching: false,
+    //   })
+    // }
+  },
+  watch: {
+    currentSong() {
+      //监听正在播放的歌曲改变
+      this.$nextTick(() => {
+        this.$refs.start.play()
+      })
     },
+  },
 }
-
-
-}
-
 </script>
 
 <style scoped>
@@ -265,14 +299,26 @@ watch:{
   justify-content: center;
   position: relative;
 }
-.fang p{
+.fang p {
   width: 78%;
   height: 0.2rem;
   background-color: #cecece;
   /* rgb(56, 180, 139) */
 }
-.fang p::after{
-  content: "";
+.fang span {
+  font-size: 0.5rem;
+  color: #696969;
+  position: absolute;
+}
+.fang span:nth-of-type(1) {
+  top: 1.5rem;
+  left: 1.5rem;
+}
+.fang span:nth-of-type(2) {
+  top: 1.5rem;
+  right: 1.5rem;
+}
+.fang span:nth-of-type(3) {
   display: block;
   width: 0.5rem;
   height: 0.5rem;
@@ -280,21 +326,8 @@ watch:{
   border: 0.1rem solid rgb(56, 180, 139);
   position: absolute;
   border-radius: 50%;
-  top: 0.7rem;
-  left:2.0rem;
-}
-.fang span{
-  font-size: 0.5rem;
-  color: #696969;
-  position: absolute;
-}
-.fang span:nth-of-type(1){
-  top: 1.5rem;
-    left: 1.5rem;
-}
-.fang span:nth-of-type(2){
-  top: 1.5rem;
-  right: 1.5rem;
+  top: 0.75rem;
+  left: 2rem;
 }
 .state {
   animation-play-state: paused;

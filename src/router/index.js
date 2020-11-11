@@ -70,7 +70,7 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('../views/Login.vue')
+    component: () => import('../views/login.vue')
   },
   {
     path: '/login_reg',
