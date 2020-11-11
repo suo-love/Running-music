@@ -75,7 +75,7 @@
 
       <!-- <el-slider v-model="currentTime" :format-tooltip="formatProcessToolTip" @change="changeCurrentTime" class="slider"></el-slider> -->
 
-      <p class="circle" ></p>
+      <p class="circle"></p>
       <!-- 当前时间 -->
       <span>{{ currentTime }}</span>
       <!-- 总时长 -->
@@ -92,7 +92,6 @@
         style="display: none"
       ></audio>
     </div>
-
 
     <!-- 五个按钮 -->
 
@@ -177,7 +176,6 @@ export default {
       })
       this.songs = res2.data.songs
     }
-    
   },
 
   methods: {
@@ -194,6 +192,7 @@ export default {
         this.named = 'play-circle-o'
         this.animt = 'state'
       }
+      // console.log(this.$refs.start.currentTime)
     },
     load() {
       this.$refs.start.load()
@@ -230,6 +229,7 @@ export default {
     },
     updateTime(e) {
       // this.currentTime =parseInt(e.target.currentTime);  //获取audio当前播放时间
+      // console.log(parseInt(e.target.currentTime/60))
       var a = ''
       if (parseInt(e.target.currentTime) < 10) {
         a = '' + parseInt(e.target.currentTime)
@@ -274,21 +274,22 @@ export default {
     //   let events = e.touches[0] || e;
     //   this.timelineClick(events);
     // },
-
-    // touchEnd(e) {
-    //   this.setState({
-    //     touching: false,
-    //   })
-    // }
   },
   watch: {
     currentSong() {
       //监听正在播放的歌曲改变
       this.$nextTick(() => {
         this.$refs.start.play()
+        // console.log(this.$refs.start.duration); //此时duration为NaN
       })
     },
   },
+
+  // touchEnd(e) {
+  //   this.setState({
+  //     touching: false,
+  //   })
+  // }
 }
 </script>
 

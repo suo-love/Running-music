@@ -1,8 +1,8 @@
 <template>
   <div class="collect">
     <div class="header">
-      <span class="el-icon-arrow-left"></span>
-      <h3>我的收藏</h3>
+      <span class="el-icon-arrow-left" @click="jump" style="font-size:20px; color:#38b48b;position:fixed;top:15px;left:10px;"></span>
+      <h3 style="color:#38b48b;">我的收藏</h3>
     </div>
     <div class="nav">
       <el-tabs class="tabs" v-model="activeName" @tab-click="handleClick">
@@ -36,13 +36,17 @@ export default {
   name:'Collect',
   data:function(){
     return {
-      activeName: 'second' 
+      activeName: 'first'
     }
   },
   methods:{
     handleClick(tab, event) {
-        console.log(tab, event);
-      }
+        // console.log(tab, event);
+      },
+    jump(){
+      console.log(1);
+      this.$router.go(-1);
+    }
   }
 }
 </script>
@@ -73,6 +77,9 @@ h3{
   margin-bottom: 0;
   margin-left: 8rem;
 }
+
+</style>
+<style>
 .el-tabs__item{
   width: 25%;
 }

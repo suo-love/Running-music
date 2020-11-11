@@ -1,10 +1,11 @@
-import axios from "axios"
+import axios from 'axios'
 // import { Notify } from 'vant';
 // import NProgress from 'nprogress'
-import { serverUrl} from "./tools";
+import { serverUrl } from './tools'
 const instance = axios.create({
   timeout: 5000, // 请求超时时间
   baseURL: serverUrl, // 请求的基础地址
+  withCredentials: true
 })
 // 全局请求拦截，在发起请求之前触发
 // 1.添加全局loading
@@ -39,25 +40,24 @@ const instance = axios.create({
  * @param {*} url
  * @param {*} params
  */
-export const get = (url, params) => instance.get(url, { params });
+export const get = (url, params) => instance.get(url, { params })
 
 /**
  * 发起post请求
  * @param {*} url
  * @param {*} data
  */
-export const post = (url, data) => instance.post(url, data);
+export const post = (url, data) => instance.post(url, data)
 
 /**
  * put请求
  * @param {*} url
  * @param {*} data
  */
-export const put = (url, data) => instance.put(url, data);
+export const put = (url, data) => instance.put(url, data)
 
 /**
  * delete请求
  * @param {*} url
  */
-export const del = (url) => instance.delete(url);
-
+export const del = url => instance.delete(url)
