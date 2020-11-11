@@ -181,7 +181,7 @@ export default {
         this.named = 'play-circle-o'
         this.animt = 'state'
       }
-      console.log(this.$refs.start.currentTime)
+      // console.log(this.$refs.start.currentTime)
     },
     load() {
       this.$refs.start.load()
@@ -213,19 +213,19 @@ export default {
 
     },
     getDuration() {
-       console.log(parseInt(this.$refs.start.duration)); //此时可以获取到duration
+      //  console.log(parseInt(this.$refs.start.duration)); //此时可以获取到duration
        var middle= 0;// 分
        var s=0;
        if(parseInt(this.$refs.start.duration)>60){
               middle= parseInt(this.$refs.start.duration/60);
               s= parseInt(this.$refs.start.duration%60);
-              console.log(middle,s)
+              // console.log(middle,s)
        }
        this.duration = middle+":"+s;
     },
     updateTime(e) {
       // this.currentTime =parseInt(e.target.currentTime);  //获取audio当前播放时间
-      console.log(parseInt(e.target.currentTime/60))
+      // console.log(parseInt(e.target.currentTime/60))
       var a="";
       if(parseInt(e.target.currentTime)<10){
         a=""+parseInt(e.target.currentTime)
@@ -248,7 +248,7 @@ watch:{
     currentSong() {  //监听正在播放的歌曲改变
         this.$nextTick(() => {
             this.$refs.start.play();
-            console.log(this.$refs.start.duration); //此时duration为NaN
+            // console.log(this.$refs.start.duration); //此时duration为NaN
         })
     },
 }

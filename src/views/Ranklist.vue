@@ -33,7 +33,7 @@
               </li>
               <li class="rakn_song_list__item">
                 <strong class="rakn_song_list__no c_txt1">2<!-- -->.</strong>
-                <span class="rakn_song_list__name c_txt1">学落下的声音</span>
+                <span class="rakn_song_list__name c_txt1">雪落下的声音</span>
                 -<span class="rakn_song_list__singer c_txt2">林俊杰</span>
               </li>
               <li class="rakn_song_list__item">

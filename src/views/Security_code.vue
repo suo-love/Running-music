@@ -49,13 +49,9 @@ export default {
         this.userId=res1.data.bindings[0].userId;
         const res2 = await getUserDetail({uid:this.userId})
         this.nickname = res2.data.profile.nickname;
-        console.log(res2.data.profile.nickname);
         setToken(this.userId);
         this.$router.push({
           name: "User",
-          query:{
-            nickname:this.nickname
-          }
         });
       }
     }

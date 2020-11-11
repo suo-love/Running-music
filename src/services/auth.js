@@ -48,3 +48,21 @@ export function getUserDetail(params) {
 export function Nologin() {
   return post("/logout");
 }
+/**
+ * 获取用户信息 , 歌单，收藏，mv, dj 数量
+ */
+export function getUserInfo() {
+  return post("/user/subcount");
+}
+/**
+ * 获取账号信息
+ */
+export function getHaoInfo() {
+  return post("/user/account");
+}
+/**
+ * 获取用户获取用户播放记录 uid
+ */
+export function Recentlyplayed(params) {
+  return post("/user/record", params);
+}
